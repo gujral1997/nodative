@@ -12,7 +12,7 @@ import mongo from 'mongodb'
 import mongoose from 'mongoose'
 import { param } from 'express-validator/check';
 
-// import routes from './routes/index'
+import routes from './routes/index'
 // import users from './routes/users'
 
 
@@ -38,6 +38,10 @@ app.use(session({
     saveUninitialized: true,
     resave: true
 }))
+
+// Passport init
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Express Validator (from express validator github)
 app.use(expressValidotor({
@@ -67,7 +71,7 @@ app.use((req, res, next) => {
     next()
 })
 
-// app.use('/', routes)
+app.use('/', routes)
 // app.use('/users', users)
 
 // Set Port
