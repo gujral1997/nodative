@@ -12,6 +12,9 @@ import mongo from 'mongodb'
 import mongoose from 'mongoose'
 import { param } from 'express-validator/check';
 
+// import routes from './routes/index'
+// import users from './routes/users'
+
 
 // Init App
 const app = express()
@@ -53,4 +56,21 @@ app.use(expressValidotor({
     }
 }))
 
-app.listen(3000, ()=>console.log('App is listening at 3000'))
+// Connect flash Middleware
+app.use(flash())
+
+// Global Vars
+app.use((req, res, next) => {
+    res.locals.success_msg = req.flash('success_msg')
+    res.locals.error_msg = req.flash('error_msg')
+    res.locals.error = req.flash('error')
+    next()
+})
+
+// app.use('/', routes)
+// app.use('/users', users)
+
+// Set Port
+app.set('port', (process.env.PORT || 3000))
+
+app.listen(app.get('port'), ()=>console.log(`App is listening at ${app.get('port')}`))
