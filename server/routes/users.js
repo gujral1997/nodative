@@ -11,7 +11,6 @@ import {Strategy as LocalStrategy} from 'passport-local'
 const router = express.Router()
 
 // Function that registers user
-
 const registerUser =(req, res) => {
 	const name = req.body.name;
 	const email = req.body.email;
@@ -54,13 +53,20 @@ const registerUser =(req, res) => {
 }
 
 // Function that logs in User
-
 const loginUser = (req, res) => {
     console.log('h')
     res.status(200).json({
         msg: `${req.body.username} has successfully logged in`
     })
   }
+
+// Function that logouts user
+const logoutUser = (req, res) => {
+    req.logout()
+    res.status(200).json({
+        msg: `Logged out successfully`
+    })
+}
 
 // Register
 router.get('/register', (req, res)=>{
@@ -102,8 +108,10 @@ passport.deserializeUser((id, done) => {
 })
 
 // Login User
-
 router.post('/login', passport.authenticate('local'), loginUser);
+
+// Logout User
+router.get('/logout', logoutUser)
 
 
 export default router
