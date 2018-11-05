@@ -1,7 +1,16 @@
 import express from 'express'
-import User, {createUser} from '../models/user'
+import User, {
+    createUser,
+    getUserByUsername,
+    comparePassword,
+    getUserById
+} from '../models/user'
+import passport from 'passport'
+import {Strategy as LocalStrategy} from 'passport-local'
 
 const router = express.Router()
+
+// Function that registers user
 
 const registerUser =(req, res) => {
 	const name = req.body.name;
@@ -38,11 +47,20 @@ const registerUser =(req, res) => {
 
         req.flash('success_msg', 'You are registered and can now login')
 
-        res.json({
+        res.status(200).json({
             msg: `${name} has successfully registered`
         })
     }
 }
+
+// Function that logs in User
+
+const loginUser = (req, res) => {
+    console.log('h')
+    res.status(200).json({
+        msg: `${req.body.username} has successfully logged in`
+    })
+  }
 
 // Register
 router.get('/register', (req, res)=>{
@@ -51,5 +69,41 @@ router.get('/register', (req, res)=>{
 
 // Register User
 router.post('/register', registerUser)
+
+// LocalStrategy
+passport.use(new LocalStrategy(
+    (username, password, done) => {
+        getUserByUsername(username, (err, user) => {
+            if(err) throw err
+            if(!user) {
+                return done(null, false, { message: 'Unknown User' });
+            }
+
+            comparePassword(password, user.password, (err, isMatch) => {
+                if(err) throw err
+                if(isMatch) {
+                    return done(null, user)
+                } else {
+                    return done(null, false, {message: 'Invalid password'})
+                }
+            })
+        })
+    }
+  ))
+
+passport.serializeUser((user, done) => {
+    done(null, user.id)
+})
+
+passport.deserializeUser((id, done) => {
+    getUserById(id, (err, user) => {
+        done(err, user)
+    })
+})
+
+// Login User
+
+router.post('/login', passport.authenticate('local'), loginUser);
+
 
 export default router
