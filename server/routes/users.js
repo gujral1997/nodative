@@ -31,25 +31,43 @@ const registerUser =(req, res) => {
 	if (errors) {
 		res.status(500).json(errors)
     }
+
     else {
-        const newUser = new User({
-            name: name,
-            email: email,
-            username: username,
-            password: password
-        })
-
-        createUser(newUser, (err, user) => {
-            if(err) throw err
-            console.log(user)
-        })
-
-        req.flash('success_msg', 'You are registered and can now login')
-
-        res.status(200).json({
-            msg: `${name} has successfully registered`
-        })
-    }
+		//checking for email and username are already taken
+		User.findOne({ username: { 
+			"$regex": "^" + username + "\\b", "$options": "i"
+	}}, (err, user) => {
+			User.findOne({ email: { 
+				"$regex": "^" + email + "\\b", "$options": "i"
+		}},  (err, mail) => {
+				if (user || mail) {
+					res.render('register', {
+						user: user,
+						mail: mail
+					});
+				}
+				else {
+                    const newUser = new User({
+                        name: name,
+                        email: email,
+                        username: username,
+                        password: password
+                    })
+            
+                    createUser(newUser, (err, user) => {
+                        if(err) throw err
+                        console.log(user)
+                    })
+            
+                    req.flash('success_msg', 'You are registered and can now login')
+            
+                    res.status(200).json({
+                        msg: `${name} has successfully registered`
+                    })
+                }
+			});
+		});
+	}
 }
 
 // Function that logs in User
