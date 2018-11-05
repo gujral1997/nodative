@@ -13,7 +13,14 @@ import mongoose from 'mongoose'
 import { param } from 'express-validator/check';
 
 import routes from './routes/index'
-// import users from './routes/users'
+import users from './routes/users'
+
+// Mongodb databse connection
+mongoose.connect('mongodb://granative:granative1234@ds251223.mlab.com:51223/granative')
+mongoose.connection
+.once('open', () => console.log('Connected to MongoLab instance.'))
+.on('error', error => console.log('Error connecting to MongoLab:', error));
+
 
 
 // Init App
@@ -72,7 +79,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/', routes)
-// app.use('/users', users)
+app.use('/users', users)
 
 // Set Port
 app.set('port', (process.env.PORT || 3000))
