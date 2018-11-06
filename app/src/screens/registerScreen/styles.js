@@ -32,5 +32,13 @@ export default StyleSheet.create({
     },
     text: {
         color: 'white'
+    },
+    link: {
+        marginTop: 20,
+        flexDirection: 'row'
+    },
+    linkText: {
+        color: 'indigo',
+        paddingLeft: 5
     }
 })

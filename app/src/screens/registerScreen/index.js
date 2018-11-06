@@ -17,61 +17,106 @@ import styles from './styles'
 class RegisterScreen extends React.Component {
 
     state = {
+        login: true
+    }
 
+    isRegister() {
+        const {login} = this.state
+        return(
+            <View style={styles.link}>
+                <Text style={styles.text}>{login?'Dont have ':'Already having'} account?</Text>
+                <TouchableOpacity onPress={()=>this.setState({login: !this.state.login})}>
+                    <Text style={styles.linkText}>
+                        {login?'Register':'Login'}
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        )
     }
 
     render() {
         return(
             <ImageBackground style={styles.container} source={assets['background']}>
-                <View style={styles.subView}>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={(name) => this.setState({name})}
-                        value={this.state.name}
-                        placeholder='Name'
-                        placeholderTextColor='black'
-                        />
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={(email) => this.setState({email})}
-                        value={this.state.email}
-                        placeholder='Email'
-                        placeholderTextColor='black'
-                        autoCapitalize = 'none'
-                        />
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={(username) => this.setState({username})}
-                        value={this.state.username}
-                        placeholder='Username'
-                        placeholderTextColor='black'
-                        />
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={(password) => this.setState({password})}
-                        value={this.state.password}
-                        placeholder='Password'
-                        placeholderTextColor='black'
-                        secureTextEntry
-                        />
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={(password1) => this.setState({password1})}
-                        value={this.state.password1}
-                        placeholder='Retype Password'
-                        placeholderTextColor='black'
-                        secureTextEntry
-                        />
-                    <TouchableOpacity 
-                        onPress={()=>{
-                            alert('Submit Pressed')
-                        }}
-                        style={styles.button}
-                        >
-                        {this.state.loading?<ActivityIndicator color="white"/>:<Text style={styles.text}>Submit</Text>}
-                    </TouchableOpacity>
-                    <KeyboardSpacer/>
-                </View>
+                {
+                    this.state.login?
+                        <View style={styles.subView}>
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={(username) => this.setState({username})}
+                                value={this.state.username}
+                                placeholder='Username'
+                                placeholderTextColor='black'
+                                />
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={(password) => this.setState({password})}
+                                value={this.state.password}
+                                placeholder='Password'
+                                placeholderTextColor='black'
+                                secureTextEntry
+                                />
+                            <TouchableOpacity 
+                                onPress={()=>{
+                                    alert('Submit Pressed')
+                                }}
+                                style={styles.button}
+                                >
+                                {this.state.loading?<ActivityIndicator color="white"/>:<Text style={styles.text}>Submit</Text>}
+                            </TouchableOpacity>
+                            <KeyboardSpacer/>
+                            {this.isRegister()}
+                        </View>:
+                        <View style={styles.subView}>
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={(name) => this.setState({name})}
+                                value={this.state.name}
+                                placeholder='Name'
+                                placeholderTextColor='black'
+                                />
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={(email) => this.setState({email})}
+                                value={this.state.email}
+                                placeholder='Email'
+                                placeholderTextColor='black'
+                                autoCapitalize = 'none'
+                                />
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={(username) => this.setState({username})}
+                                value={this.state.username}
+                                placeholder='Username'
+                                placeholderTextColor='black'
+                                />
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={(password) => this.setState({password})}
+                                value={this.state.password}
+                                placeholder='Password'
+                                placeholderTextColor='black'
+                                secureTextEntry
+                                />
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={(password1) => this.setState({password1})}
+                                value={this.state.password1}
+                                placeholder='Retype Password'
+                                placeholderTextColor='black'
+                                secureTextEntry
+                                />
+                            <TouchableOpacity 
+                                onPress={()=>{
+                                    alert('Submit Pressed')
+                                }}
+                                style={styles.button}
+                                >
+                                {this.state.loading?<ActivityIndicator color="white"/>:<Text style={styles.text}>Submit</Text>}
+                            </TouchableOpacity>
+                            <KeyboardSpacer/>
+                            {this.isRegister()}
+                        </View>
+                }
             </ImageBackground>
         )
     }
