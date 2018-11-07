@@ -13,7 +13,6 @@ import mongoose from 'mongoose'
 import { param } from 'express-validator/check';
 
 import routes from './routes/index'
-import users from './routes/users'
 
 // Mongodb databse connection
 mongoose.connect('mongodb://granative:granative1234@ds251223.mlab.com:51223/granative')
@@ -79,8 +78,13 @@ app.use((req, res, next) => {
     next()
 })
 
-app.use('/', routes)
-app.use('/users', users)
+app.use('/nodative/api/v1/', routes)
+
+app.use('/nodative/api/v1/', (req, res, next) => {
+    res.status(404).json({
+      info: `Cannot ${req.method}: '${req.path}`,
+    })
+  })
 
 // Set Port
 app.set('port', (process.env.PORT || 3000))
