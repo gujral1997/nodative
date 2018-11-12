@@ -10,8 +10,10 @@ import {
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import {Actions, ActionConst} from  'react-native-router-flux'
 
+import { Loader } from '../../components'
 import assets from '../../themes/assets'
 import styles from './styles'
+import {userApi} from '../../api/userApi'
 
 
 class RegisterScreen extends React.Component {
@@ -57,11 +59,19 @@ class RegisterScreen extends React.Component {
                                 />
                             <TouchableOpacity 
                                 onPress={()=>{
-                                    alert('Submit Pressed')
+                                    const {username, password} = this.state
+                                    userApi.login(username, password)
                                 }}
                                 style={styles.button}
                                 >
-                                {this.state.loading?<ActivityIndicator color="white"/>:<Text style={styles.text}>Submit</Text>}
+                                {this.state.loading?
+                                <Loader
+                                color = 'white'
+                                size = {20}
+                                show = {this.state.loading}
+                                />
+                                :
+                                <Text style={styles.text}>Submit</Text>}
                             </TouchableOpacity>
                             <KeyboardSpacer/>
                             {this.isRegister()}
