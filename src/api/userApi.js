@@ -1,9 +1,15 @@
 import axios from 'axios'
 import { API_HOST } from 'react-native-dotenv'
+import { Actions } from 'react-native-router-flux'
+
+
+import store from '../store/store'
+import { loginUserInitiated, loginUserSuccessful, loginUserFailed } from '../actions/userActions'
 
 export const userApi = {
 
     login: (username, password) => {
+        store.dispatch(loginUserInitiated())
         return axios({
             method: 'post',
             url: `${API_HOST}/nodative/api/v1/users/login`,
@@ -14,9 +20,10 @@ export const userApi = {
             timeout: 15000
         })
             .then(response => {
-                console.log(response)
+                store.dispatch(loginUserSuccessful('Success'))
+                Actions.afterLogin()
             }).catch(err=> {
-                console.log(err)
+                store.dispatch(loginUserFailed('Login Failed'))
             })
     }
 }

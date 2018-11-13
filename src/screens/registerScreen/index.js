@@ -65,11 +65,11 @@ class RegisterScreen extends React.Component {
                                 }}
                                 style={styles.button}
                                 >
-                                {this.state.loading?
+                                {this.props.loading?
                                 <Loader
                                 color = 'white'
                                 size = {20}
-                                show = {this.state.loading}
+                                show = {true}
                                 />
                                 :
                                 <Text style={styles.text}>Submit</Text>}

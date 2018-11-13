@@ -1,7 +1,8 @@
 
 import React from 'react'
 import {
-    RegisterScreen
+    RegisterScreen,
+    AfterLogin
 } from './screens'
 import { Router, Scene, Stack } from "react-native-router-flux"
 
@@ -11,6 +12,7 @@ class Routes extends React.Component {
         <Router>
             <Stack key="root" hideNavBar>
               <Scene key="register" component={RegisterScreen} initial/>
+              <Scene key="afterLogin" component={AfterLogin} />
             </Stack>
         </Router>
   }

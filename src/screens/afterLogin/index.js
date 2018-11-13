@@ -6,7 +6,7 @@ import styles from './styles'
 class AfterLogin extends React.Component {
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 <Text>After Login</Text>
             </View>
         )
