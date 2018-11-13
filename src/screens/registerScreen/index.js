@@ -7,7 +7,8 @@ import {
     ActivityIndicator,
     ImageBackground
 } from 'react-native'
-import KeyboardSpacer from 'react-native-keyboard-spacer';
+import KeyboardSpacer from 'react-native-keyboard-spacer'
+import {connect} from 'react-redux'
 import {Actions, ActionConst} from  'react-native-router-flux'
 
 import { Loader } from '../../components'
@@ -132,4 +133,8 @@ class RegisterScreen extends React.Component {
     }
 }
 
-export default RegisterScreen
+const mapStateToProps =state=> ({
+    loading: state.user.loading
+})
+
+export default connect(mapStateToProps)(RegisterScreen)
